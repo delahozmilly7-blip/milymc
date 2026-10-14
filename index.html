@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Mily Charris - Belleza Integral | Panel Administrativo & Catálogo</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #fdf8f5;
+            --rose-gold: #c58b73;
+            --rose-gold-dark: #a36852;
+            --text-color: #3d302c;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 15px rgba(197, 139, 115, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 60px;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            text-align: center;
+            padding: 30px 20px;
+            box-shadow: var(--shadow);
+            border-bottom: 2px solid var(--rose-gold);
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--rose-gold-dark);
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--rose-gold);
+            margin-top: 5px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            background-color: var(--card-bg);
+            border: 1px solid var(--rose-gold);
+            color: var(--rose-gold-dark);
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        nav button.active, nav button:hover {
+            background-color: var(--rose-gold);
+            color: white;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Secciones del Catálogo */
+        .category-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--rose-gold-dark);
+            margin: 25px 0 15px;
+            border-bottom: 1px solid var(--rose-gold);
+            padding-bottom: 5px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .card .price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--rose-gold-dark);
+            margin-bottom: 15px;
+        }
+
+        .card-img-preview {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: none;
+            background-color: #f0f0f0;
+        }
+
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .btn-upload {
+            border: 1px dashed var(--rose-gold);
+            color: var(--rose-gold-dark);
+            background-color: #fff;
+            padding: 6px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .upload-btn-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .card button.btn-add {
+            background-color: var(--rose-gold);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .card button.btn-add:hover {
+            background-color: var(--rose-gold-dark);
+        }
+
+        /* Formulario de Pedido */
+        .order-container {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .order-summary {
+            margin: 20px 0;
+            border-top: 1px dashed #ccc;
+            padding-top: 15px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Tabla de Inventario Administrativo */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--rose-gold);
+            color: white;
+        }
+
+        /* Contacto & Footer */
+        .contact-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            align-items: center;
+        }
+
+        .contact-info a {
+            color: var(--rose-gold-dark);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .btn-gmail {
+            background-color: #EA4335;
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>MC MILY CHARRIS</h1>
+        <p>Belleza Integral</p>
+    </header>
+
+    <nav>
+        <button class="active" onclick="switchTab('catalogo')"><i class="fas fa-store"></i> Catálogo</button>
+        <button onclick="switchTab('pedido')"><i class="fas fa-shopping-cart"></i> Pedido</button>
+        <button onclick="switchTab('inventario')"><i class="fas fa-boxes"></i> Inventario (Admin)</button>
+        <button onclick="switchTab('contacto')"><i class="fas fa-address-book"></i> Contacto</button>
+    </nav>
+
+    <div class="container">
+        <!-- 1. LÍNEA DE CATÁLOGO CON OPCIÓN DE IMÁGENES -->
+        <section id="catalogo" class="section active">
+            <h2 class="category-title"><i class="fas fa-cut"></i> Zona de Peluquería</h2>
+            <div class="grid">
+                <div class="card">
+                    <div>
+                        <img id="img-corte" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-corte')">
+                        </div>
+                        <h4>Corte Dama</h4>
+                        <p class="price">$45.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Corte Dama', 45000, 'peluqueria')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+                <div class="card">
+                    <div>
+                        <img id="img-queratina" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-queratina')">
+                        </div>
+                        <h4>Queratinas</h4>
+                        <p class="price">Desde $150.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Queratina', 150000, 'peluqueria')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+                <div class="card">
+                    <div>
+                        <img id="img-hidratacion" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-hidratacion')">
+                        </div>
+                        <h4>Hidrataciones</h4>
+                        <p class="price">Desde $50.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Hidratación', 50000, 'peluqueria')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+            </div>
+
+            <h2 class="category-title"><i class="fas fa-hand-sparkles"></i> Spa de Uñas</h2>
+            <div class="grid">
+                <div class="card">
+                    <div>
+                        <img id="img-pedtrad" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-pedtrad')">
+                        </div>
+                        <h4>Pedicure Tradicional</h4>
+                        <p class="price">$25.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Pedicure Tradicional', 25000, 'unas')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+                <div class="card">
+                    <div>
+                        <img id="img-mantrad" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-mantrad')">
+                        </div>
+                        <h4>Manicure Tradicional</h4>
+                        <p class="price">$20.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Manicure Tradicional', 20000, 'unas')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+                <div class="card">
+                    <div>
+                        <img id="img-mansemi" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-mansemi')">
+                        </div>
+                        <h4>Manicure Semipermanente</h4>
+                        <p class="price">$50.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Manicure Semipermanente', 50000, 'unas')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+                <div class="card">
+                    <div>
+                        <img id="img-pedsemi" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-pedsemi')">
+                        </div>
+                        <h4>Pedicure Semipermanente</h4>
+                        <p class="price">$40.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Pedicure Semipermanente', 40000, 'unas')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+                <div class="card">
+                    <div>
+                        <img id="img-softgel" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-softgel')">
+                        </div>
+                        <h4>Alargamiento Soft Gel</h4>
+                        <p class="price">$75.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Alargamiento Soft Gel', 75000, 'unas')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+                <div class="card">
+                    <div>
+                        <img id="img-polygel" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-polygel')">
+                        </div>
+                        <h4>Alargamiento PolyGel</h4>
+                        <p class="price">Desde $80.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Alargamiento PolyGel', 80000, 'unas')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+            </div>
+
+            <h2 class="category-title"><i class="fas fa-sparkles"></i> Zona de Depilación</h2>
+            <div class="grid">
+                <div class="card">
+                    <div>
+                        <img id="img-axila" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-axila')">
+                        </div>
+                        <h4>Depilación Axila</h4>
+                        <p class="price">$20.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Depilación Axila', 20000, 'depilacion')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+                <div class="card">
+                    <div>
+                        <img id="img-cejas" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-cejas')">
+                        </div>
+                        <h4>Depilación Cejas</h4>
+                        <p class="price">$12.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Depilación Cejas', 12000, 'depilacion')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+                <div class="card">
+                    <div>
+                        <img id="img-henna" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-henna')">
+                        </div>
+                        <h4>Diseño con Henna</h4>
+                        <p class="price">$20.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Diseño con Henna', 20000, 'depilacion')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+                <div class="card">
+                    <div>
+                        <img id="img-bozo" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-bozo')">
+                        </div>
+                        <h4>Bozo</h4>
+                        <p class="price">$7.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Depilación Bozo', 7000, 'depilacion')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+                <div class="card">
+                    <div>
+                        <img id="img-mediapierna" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-mediapierna')">
+                        </div>
+                        <h4>Depilación Media Pierna</h4>
+                        <p class="price">$30.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Media Pierna', 30000, 'depilacion')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+                <div class="card">
+                    <div>
+                        <img id="img-piernacompleta" class="card-img-preview" alt="Vista previa">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn-upload"><i class="fas fa-camera"></i> Subir Foto Trabajo</button>
+                            <input type="file" accept="image/*" onchange="previewImage(event, 'img-piernacompleta')">
+                        </div>
+                        <h4>Depilación Pierna Completa</h4>
+                        <p class="price">$45.000</p>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Pierna Completa', 45000, 'depilacion')"><i class="fas fa-cart-plus"></i> Agregar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. LÍNEA DE VENTA (WHATSAPP) -->
+        <section id="pedido" class="section">
+            <h2 class="category-title">Resumen de Pedido / Cita</h2>
+            <div class="order-container">
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label for="clientName">Nombre Completo del Cliente:</label>
+                        <input type="text" id="clientName" required placeholder="Ej. Maria Perez">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientAddress">Dirección Física:</label>
+                        <input type="text" id="clientAddress" required placeholder="Ej. Calle 123 #45-67">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientEmail">Correo Electrónico:</label>
+                        <input type="email" id="clientEmail" required placeholder="ejemplo@correo.com">
+                    </div>
+
+                    <div class="order-summary">
+                        <h3>Servicios / Productos Seleccionados</h3>
+                        <div id="cartItems">
+                            <p style="color: #888; font-style: italic;">No has seleccionado servicios aún.</p>
+                        </div>
+                        <h3 style="margin-top: 15px; text-align: right;">Total: $<span id="cartTotal">0</span></h3>
+                    </div>
+
+                    <button type="button" class="btn-whatsapp" onclick="sendWhatsApp()"><i class="fab fa-whatsapp"></i> Enviar Pedido a WhatsApp</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 3. LÍNEA DE MANEJO DE RECURSOS DE INVENTARIO (ADMINISTRATIVO Y AUTOMATIZADO) -->
+        <section id="inventario" class="section">
+            <h2 class="category-title">Panel de Control de Inventario (Solo Uso Administrativo)</h2>
+            <div class="order-container" style="margin-bottom: 20px;">
+                <h3>Registrar / Actualizar Insumo</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 10px;">
+                    <input type="text" id="invItem" placeholder="Nombre del insumo">
+                    <input type="text" id="invCat" placeholder="Categoría">
+                    <input type="number" id="invStock" placeholder="Cantidad Disponible">
+                    <button onclick="addInventory()" style="background: var(--rose-gold); color: white; border: none; border-radius: 6px; cursor: pointer;">Actualizar Stock</button>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Insumo / Producto</th>
+                        <th>Categoría</th>
+                        <th>Stock Actual</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryTable">
+                    <tr data-id="esmalte">
+                        <td>Esmaltes Semipermanentes</td>
+                        <td>Spa de Uñas</td>
+                        <td class="stock-qty">45</td>
+                        <td><span style="color: green; font-weight: bold;">Disponible</span></td>
+                    </tr>
+                    <tr data-id="polygel">
+                        <td>Kit de PolyGel / Soft Gel</td>
+                        <td>Spa de Uñas</td>
+                        <td class="stock-qty">15</td>
+                        <td><span style="color: green; font-weight: bold;">Disponible</span></td>
+                    </tr>
+                    <tr data-id="cera">
+                        <td>Cera Depilatoria / Henna</td>
+                        <td>Depilación</td>
+                        <td class="stock-qty">10</td>
+                        <td><span style="color: green; font-weight: bold;">Disponible</span></td>
+                    </tr>
+                    <tr data-id="queratina">
+                        <td>Tratamiento Queratina / Hidratación</td>
+                        <td>Peluquería</td>
+                        <td class="stock-qty">8</td>
+                        <td><span style="color: green; font-weight: bold;">Disponible</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 4. LÍNEA DE CONTACTOS CON BOTÓN GMAIL DIRECTO -->
+        <section id="contacto" class="section">
+            <h2 class="category-title">Información de Contacto</h2>
+            <div class="contact-card">
+                <h3>MC Mily Charris - Belleza Integral</h3>
+                <div class="contact-info">
+                    <div>
+                        <p><i class="fas fa-envelope" style="color: var(--rose-gold);"></i> <strong>Correo Electrónico:</strong> delahozmilly7@gmail.com</p>
+                        <a href="mailto:delahozmilly7@gmail.com?subject=Consulta%20MC%20Mily%20Charris" class="btn-gmail" target="_blank"><i class="fas fa-paper-plane"></i> Ir a Gmail Directo</a>
+                    </div>
+                    <p><i class="fab fa-whatsapp" style="color: #25D366;"></i> <strong>WhatsApp Directo:</strong> <a href="https://wa.me/573016917433" target="_blank">3016917433</a></p>
+                    <p><i class="fab fa-instagram" style="color: #E1306C;"></i> <strong>Instagram:</strong> <a href="https://instagram.com/nails_lm" target="_blank">@nails_lm</a></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function previewImage(event, imgId) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                const output = document.getElementById(imgId);
+                output.src = reader.result;
+                output.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function addToCart(service, price, category) {
+            const existing = cart.find(item => item.service === service);
+            if(existing) {
+                existing.qty++;
+            } else {
+                cart.push({service, price, qty: 1, category});
+            }
+            updateCartDisplay();
+            alert(`"${service}" añadido al pedido.`);
+        }
+
+        function updateCartDisplay() {
+            const container = document.getElementById('cartItems');
+            total = 0;
+            if(cart.length === 0) {
+                container.innerHTML = '<p style="color: #888; font-style: italic;">No has seleccionado servicios aún.</p>';
+                document.getElementById('cartTotal').innerText = '0';
+                return;
+            }
+
+            container.innerHTML = '';
+            cart.forEach(item => {
+                const itemTotal = item.price * item.qty;
+                total += itemTotal;
+                container.innerHTML += `
+                    <div class="order-item">
+                        <span>${item.service} (x${item.qty})</span>
+                        <span>$${itemTotal.toLocaleString()}</span>
+                    </div>
+                `;
+            });
+            document.getElementById('cartTotal').innerText = total.toLocaleString();
+        }
+
+        // DESCUENTO AUTOMÁTICO DE INVENTARIO SEGÚN EL CATÁLOGO
+        function deductInventory() {
+            cart.forEach(item => {
+                let targetRowId = '';
+                if(item.category === 'unas') {
+                    if(item.service.includes('Alargamiento')) targetRowId = 'polygel';
+                    else targetRowId = 'esmalte';
+                } else if(item.category === 'depilacion') {
+                    targetRowId = 'cera';
+                } else if(item.category === 'peluqueria') {
+                    targetRowId = 'queratina';
+                }
+
+                if(targetRowId) {
+                    const row = document.querySelector(`#inventoryTable tr[data-id="${targetRowId}"]`);
+                    if(row) {
+                        const stockCell = row.querySelector('.stock-qty');
+                        let currentStock = parseInt(stockCell.innerText);
+                        currentStock = Math.max(0, currentStock - item.qty);
+                        stockCell.innerText = currentStock;
+                        if(currentStock <= 3) {
+                            row.cells[3].innerHTML = '<span style="color: orange; font-weight: bold;">Stock Bajo</span>';
+                        }
+                    }
+                }
+            });
+        }
+
+        function sendWhatsApp() {
+            const name = document.getElementById('clientName').value;
+            const address = document.getElementById('clientAddress').value;
+            const email = document.getElementById('clientEmail').value;
+
+            if(!name || !address || !email) {
+                alert('Por favor complete todos los datos del cliente.');
+                return;
+            }
+
+            if(cart.length === 0) {
+                alert('El carrito está vacío. Añada servicios antes de realizar el pedido.');
+                return;
+            }
+
+            // Descontar automáticamente del inventario administrativo
+            deductInventory();
+
+            let orderText = `*NUEVO PEDIDO - MC MILY CHARRIS*\n\n`;
+            orderText += `*Cliente:* ${name}\n`;
+            orderText += `*Dirección:* ${address}\n`;
+            orderText += `*Correo:* ${email}\n\n`;
+            orderText += `*Detalle del Pedido:*\n`;
+
+            cart.forEach(item => {
+                orderText += `- ${item.service} x${item.qty}: $${(item.price * item.qty).toLocaleString()}\n`;
+            });
+
+            orderText += `\n*TOTAL:* $${total.toLocaleString()}`;
+
+            const phone = "573016917433";
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(orderText)}`;
+            window.open(url, '_blank');
+        }
+
+        function addInventory() {
+            const item = document.getElementById('invItem').value;
+            const cat = document.getElementById('invCat').value;
+            const stock = document.getElementById('invStock').value;
+
+            if(!item || !stock || !cat) {
+                alert('Por favor complete todos los campos del insumo.');
+                return;
+            }
+
+            const table = document.getElementById('inventoryTable');
+            const row = table.insertRow();
+            row.innerHTML = `
+                <td>${item}</td>
+                <td>${cat}</td>
+                <td class="stock-qty">${stock}</td>
+                <td><span style="color: green; font-weight: bold;">Disponible</span></td>
+            `;
+
+            document.getElementById('invItem').value = '';
+            document.getElementById('invCat').value = '';
+            document.getElementById('invStock').value = '';
+        }
+    </script>
+</body>
+</html>
